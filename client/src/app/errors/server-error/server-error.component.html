@@ -1,0 +1,6 @@
+<h4>Error interno en el servidor - refresca la pagina</h4>
+<ng-container *ngIf="error">
+    <h5 class="text-danger">Error: {{ error.message }}</h5>
+    <p>Nota: Si está viendo esto, entonces angular probablemente no sea el culpable.</p>
+    <code class="mt-5" style="background-color: whitesmoke;">{{error.details}}</code>
+</ng-container>
