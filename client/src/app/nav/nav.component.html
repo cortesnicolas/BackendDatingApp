@@ -2,7 +2,7 @@
   <div class="container">
     <a class="navbar-brand" routerLink="/">Aplicación de Citas</a>
     <ul class="navbar-nav mr-auto" >
-      <ng-container *ngIf="loginUser">
+      <ng-container *ngIf="(accountService.currentUser$ | async)">
         <li class="nav-item">
           <a class="nav-link" routerLink="/members" routerLinkActive="active"
             >Matches</a
@@ -34,7 +34,7 @@
       </div>
     </div>
     <form
-      *ngIf="!loginUser"
+    *ngIf="(accountService.currentUser$ | async) === null"
       #loginForm="ngForm"
       class="d-flex"
       (ngSubmit)="login()"
