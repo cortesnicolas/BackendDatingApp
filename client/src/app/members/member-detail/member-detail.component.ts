@@ -5,6 +5,7 @@ import { NgxGalleryImage } from '@kolkov/ngx-gallery/lib/ngx-gallery-image';
 import { NgxGalleryOptions } from '@kolkov/ngx-gallery/lib/ngx-gallery-options';
 import { MembersService } from 'src/app/services/members.service';
 import { Member } from 'src/app/_models/member';
+import { User } from 'src/app/_models/user';
 
 @Component({
   selector: 'app-member-detail',
@@ -13,6 +14,7 @@ import { Member } from 'src/app/_models/member';
 })
 export class MemberDetailComponent implements OnInit {
   member: Member;
+  user: User;
   galleryOptions: NgxGalleryOptions[];
   galleryImages: NgxGalleryImage[];
 
@@ -32,12 +34,11 @@ export class MemberDetailComponent implements OnInit {
         preview: false
       }
     ]
-
-    
   }
 
   getImages(): NgxGalleryImage[]{
     const imageUrls=[];
+
     for(const photo of this.member.photos){
       imageUrls.push({
         small: photo?.url,
@@ -55,5 +56,4 @@ export class MemberDetailComponent implements OnInit {
       this.galleryImages = this.getImages();
     })
   }
-
 }
