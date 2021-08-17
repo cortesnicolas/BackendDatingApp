@@ -1,0 +1,23 @@
+<div class="form-group">
+  <input
+    [class.is-invalid]="ngControl.touched && ngControl.invalid"
+    type="{{ type }}"
+    class="form-control"
+    [formControl]="ngControl.control"
+    placeholder="{{ label }}"
+  />
+  <div *ngIf="ngControl.control.errors?.required" class="invalid-feedback">
+    Por favor ingrese la {{ label }}
+  </div>
+  <div *ngIf="ngControl.control.errors?.minlength" class="invalid-feedback">
+    El minimo de caracteres es de
+    {{ ngControl.control.errors.minlength["requiredLength"] }}
+  </div>
+  <div *ngIf="ngControl.control.errors?.maxlength" class="invalid-feedback">
+    El maximo de caracteres es de
+    {{ ngControl.control.errors.maxlength["requiredLength"] }}
+  </div>
+  <div *ngIf="ngControl.control.errors?.isMatching" class="invalid-feedback">
+    Las contrseñas no coinciden
+  </div>
+</div>
