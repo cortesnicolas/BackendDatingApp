@@ -1,4 +1,4 @@
-<div class="row" *ngIf="member">
+<div class="row">
   <div class="col-4">
     <div class="card">
       <img
@@ -21,30 +21,30 @@
         </div>
         <div>
           <strong>Fecha de ingreso:</strong>
-          <p>{{ member.created | date: 'dd MMMM YYYY' }}</p>
+          <p>{{ member.created | date: 'dd MMMM yyyy' }}</p>
         </div>
       </div>
       <div class="card-footer">
         <div class="btn-group d-flex">
           <button class="btn btn-primary">Me gusta</button>
-          <button class="btn btn-success">Mensaje</button>
+          <button class="btn btn-success" (click)="selectTab(3)">Mensaje</button>
         </div>
       </div>
     </div>
   </div>
   <div class="col-8">
-    <tabset class="member-tabset">
-      <tab heading="A cerca de {{ member.knownAs }}">
+    <tabset class="member-tabset" #memberTabs>
+      <tab heading="A cerca de {{ member.knownAs }}" (selectTab)="onTabActivate($event)">
         <h4>Description</h4>
         <p>{{ member.introduction }}</p>
         <h4>Lokking for</h4>
         <p>{{ member.lookingFor }}</p>
       </tab>
-      <tab heading="Intereses">
+      <tab heading="Intereses" (selectTab)="onTabActivate($event)">
         <h4>Intereses</h4>
         <p>{{ member.interests }}</p>
       </tab>
-      <tab heading="Fotos">
+      <tab heading="Fotos" (selectTab)="onTabActivate($event)">
         <ngx-gallery
           [options]="galleryOptions"
           [images]="galleryImages"
@@ -53,8 +53,8 @@
         >
         </ngx-gallery>
       </tab>
-      <tab heading="Mensajes">
-        <p>Mensajes aqui</p>
+      <tab heading="Mensajes" (selectTab)="onTabActivate($event)">
+        <app-member-messages [messages]="messages" [username]="member.username"></app-member-messages>
       </tab>
     </tabset>
   </div>
