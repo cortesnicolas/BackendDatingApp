@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmService } from '../services/confirm.service';
 import { MessageService } from '../services/message.service';
 import { Message } from '../_models/message';
 import { Pagination } from '../_models/pagination';
@@ -6,7 +7,7 @@ import { Pagination } from '../_models/pagination';
 @Component({
   selector: 'app-messages',
   templateUrl: './messages.component.html',
-  styleUrls: ['./messages.component.css']
+  styleUrls: ['./messages.component.css'],
 })
 export class MessagesComponent implements OnInit {
   messages: Message[];
@@ -16,29 +17,42 @@ export class MessagesComponent implements OnInit {
   pageSize = 5;
   loading = false;
 
-  constructor(private messageService: MessageService) { }
+  constructor(
+    private messageService: MessageService,
+    private confirmService: ConfirmService
+  ) {}
 
   ngOnInit(): void {
     this.loadMessages();
   }
 
-  loadMessages(){
+  loadMessages() {
     this.loading = true;
-    this.messageService.getMessages(this.pageNumber, this.pageSize, this.container)
-    .subscribe(response => {
-      this.messages = response.result;
-      this.pagination = response.pagination;
-      this.loading = false;
-    })
+    this.messageService
+      .getMessages(this.pageNumber, this.pageSize, this.container)
+      .subscribe((response) => {
+        this.messages = response.result;
+        this.pagination = response.pagination;
+        this.loading = false;
+      });
   }
 
-  deleteMessage(id: number){
-    this.messageService.deleteMessage(id).subscribe(() => {
-      this.messages.splice(this.messages.findIndex(m => m.id === id), 1)
-    })
+  deleteMessage(id: number) {
+    this.confirmService
+      .confirm('Confirm delete message', 'this cannot be undone')
+      .subscribe((result) => {
+        if (result) {
+          this.messageService.deleteMessage(id).subscribe(() => {
+            this.messages.splice(
+              this.messages.findIndex((m) => m.id === id),
+              1
+            );
+          });
+        }
+      });
   }
 
-  pageChanged(event: any){
+  pageChanged(event: any) {
     this.pageNumber = event.page;
     this.loadMessages();
   }

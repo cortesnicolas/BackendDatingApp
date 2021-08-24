@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { MessageService } from 'src/app/services/message.service';
 import { Message } from 'src/app/_models/message';
 
 @Component({
+  changeDetection: ChangeDetectionStrategy.OnPush,
   selector: 'app-member-messages',
   templateUrl: './member-messages.component.html',
   styleUrls: ['./member-messages.component.css']
@@ -14,17 +15,13 @@ export class MemberMessagesComponent implements OnInit {
   @Input() username: string;
   messageContent: string;
 
-  constructor(private messageService: MessageService) { }
+  constructor(public messageService: MessageService) { }
 
   ngOnInit(): void {
   }
 
   sendMessage(){
-    /* console.log(this.username);
-    console.log(this.messageContent); */
-    this.messageService.sendMessage(this.username, this.messageContent).subscribe(message => {
-      console.log(message)
-      this.messages.push(message);
+    this.messageService.sendMessage(this.username, this.messageContent).then(() => {
       this.messageForm.reset();
     })
   }

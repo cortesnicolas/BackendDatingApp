@@ -7,6 +7,9 @@
         class="card-img-top img-thumbnail"
       />
       <div class="card-body">
+        <div class="mb-2" *ngIf="(presence.onlineUsers$ | async).includes(member.username)">
+          <i class="fa fa-user-circle text-success">En linea</i>
+        </div>
         <div>
           <strong>Localidad:</strong>
           <p>{{ member.city }}, {{ member.country }}</p>
@@ -17,11 +20,11 @@
         </div>
         <div>
           <strong>Ultima Actividad:</strong>
-          <p>{{ member.lastActivate }}</p>
+          <p>{{ member.lastActivate | date: 'dd MMMM yyyy hh:mm' }}</p>
         </div>
         <div>
           <strong>Fecha de ingreso:</strong>
-          <p>{{ member.created | date: 'dd MMMM yyyy' }}</p>
+          <p>{{ member.created | date: 'dd MMMM yyyy hh:mm' }}</p>
         </div>
       </div>
       <div class="card-footer">
@@ -54,7 +57,7 @@
         </ngx-gallery>
       </tab>
       <tab heading="Mensajes" (selectTab)="onTabActivate($event)">
-        <app-member-messages [messages]="messages" [username]="member.username"></app-member-messages>
+        <app-member-messages [username]="member.username"></app-member-messages>
       </tab>
     </tabset>
   </div>
